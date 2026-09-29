@@ -1,0 +1,32 @@
+# Python
+sih-ai-service/.venv/
+__pycache__/
+*.pyc
+
+# Vector index — regenerate with POST /api/issues/ai-reindex
+sih-ai-service/data/
+*.faiss
+*.npy
+
+# Node
+node_modules/
+dist/
+
+# Secrets — .env.example files ARE committed
+.env
+.env.local
+
+# macOS Finder metadata
+.DS_Store
+
+# Runtime
+.logs/
+*.log
+
+# Local-only reference clones and scratch tooling — never part of this repo.
+# _upstream/ holds the three original source projects this was merged from,
+# kept on disk for provenance but not ours to publish; .demo/ is the
+# mongodb-memory-server scratch install used by demo.sh (includes a bundled
+# MongoDB binary, ~150MB — must never be committed).
+_upstream/
+.demo/

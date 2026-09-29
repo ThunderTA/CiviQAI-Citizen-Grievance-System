@@ -1,0 +1,97 @@
+# ==========================================================================
+# SIH26-S02 — AI-Based Citizen Grievance Classification, Prioritization
+#             and Duplicate Complaint Detection
+#
+#   docker compose up --build
+#
+#   React portal   http://localhost:5173
+#   Express API    http://localhost:3000/api
+#   AI service     http://localhost:8000/docs
+# ==========================================================================
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: sih-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      # The API must not start against a Mongo that is still initialising.
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  ai-service:
+    build:
+      context: ./sih-ai-service
+    container_name: sih-ai-service
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - LOG_LEVEL=INFO
+      - ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000
+      - VECTOR_STORE_DIR=/data/vector_store
+      # Optional. Absent keys mean the deterministic rule engine is used.
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - LLM_ENABLED=${LLM_ENABLED:-true}
+      - DUPLICATE_THRESHOLD=${DUPLICATE_THRESHOLD:-0.85}
+      - DUPLICATE_THRESHOLD_NEARBY=${DUPLICATE_THRESHOLD_NEARBY:-0.75}
+      - DUPLICATE_RADIUS_METERS=${DUPLICATE_RADIUS_METERS:-500}
+    volumes:
+      # The FAISS index lives outside MongoDB, so it needs its own durable
+      # volume — otherwise every restart loses duplicate detection history.
+      - vector-data:/data
+
+  api:
+    build:
+      context: ./sih-web-portal/server
+    container_name: sih-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongodb:27017/citizencare
+      # Service name, not localhost: inside the network localhost is this
+      # container, and the AI call would connect-refuse on every submission.
+      - AI_SERVICE_URL=http://ai-service:8000
+      - AI_SERVICE_TIMEOUT_MS=${AI_SERVICE_TIMEOUT_MS:-12000}
+      - CLIENT_URL=http://localhost:5173
+      # Sessions are signed locally; no third-party auth service involved.
+      - JWT_SECRET=${JWT_SECRET:-dev-secret-change-me-in-production-0123456789}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN:-7d}
+      - ADMIN_EMAILS=${ADMIN_EMAILS:-admin@demo.in}
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      ai-service:
+        # started, not healthy: the AI service loads a model for ~30s and the
+        # API degrades gracefully meanwhile, so waiting would only slow boot.
+        condition: service_started
+
+  client:
+    build:
+      context: ./sih-web-portal/client
+      args:
+        - VITE_API_URL=http://localhost:3000/api
+        - VITE_AI_SERVICE_URL=http://localhost:8000
+    container_name: sih-client
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
+volumes:
+  mongo-data:
+  vector-data:

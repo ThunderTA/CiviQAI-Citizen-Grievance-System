@@ -1,0 +1,125 @@
+{
+  "categories": [
+    {
+      "name": "Pothole",
+      "department": "Public Works Department",
+      "description": "Potholes, craters and pits in the road surface"
+    },
+    {
+      "name": "Road Damage",
+      "department": "Public Works Department",
+      "description": "Broken roads, footpaths, speed breakers and bridges"
+    },
+    {
+      "name": "Traffic & Signals",
+      "department": "Traffic & Transport Department",
+      "description": "Faulty traffic lights, missing signs, illegal parking, congestion"
+    },
+    {
+      "name": "Public Transport",
+      "department": "Traffic & Transport Department",
+      "description": "Bus service, bus stops, auto and taxi fares"
+    },
+    {
+      "name": "Water Supply",
+      "department": "Water Supply Department",
+      "description": "No water, low pressure, leaking pipes, dirty tap water"
+    },
+    {
+      "name": "Sewage",
+      "department": "Sewerage & Drainage Department",
+      "description": "Blocked or overflowing drains, sewers and manholes"
+    },
+    {
+      "name": "Flooding & Waterlogging",
+      "department": "Sewerage & Drainage Department",
+      "description": "Rainwater that will not drain, flooded streets and underpasses"
+    },
+    {
+      "name": "Waste Management",
+      "department": "Sanitation Department",
+      "description": "Uncollected garbage, dumping, dustbins, street sweeping"
+    },
+    {
+      "name": "Public Toilets",
+      "department": "Sanitation Department",
+      "description": "Dirty, locked, broken or missing public toilets"
+    },
+    {
+      "name": "Street Light",
+      "department": "Electricity Department",
+      "description": "Street lights that are off, dim, flickering or missing"
+    },
+    {
+      "name": "Power Supply",
+      "department": "Electricity Department",
+      "description": "Power cuts, low voltage, transformers, electricity meters"
+    },
+    {
+      "name": "Public Safety",
+      "department": "Public Safety Department",
+      "description": "Live wires, open manholes, accidents, crime and other dangers"
+    },
+    {
+      "name": "Stray Animals",
+      "department": "Veterinary & Animal Control Department",
+      "description": "Stray dogs, cattle and monkeys, dog bites"
+    },
+    {
+      "name": "Public Health",
+      "department": "Public Health Department",
+      "description": "Mosquito breeding, disease outbreaks, unhygienic food"
+    },
+    {
+      "name": "Air & Water Pollution",
+      "department": "Pollution Control Department",
+      "description": "Smoke, burning waste, chemical fumes, polluted lakes and rivers"
+    },
+    {
+      "name": "Noise Pollution",
+      "department": "Pollution Control Department",
+      "description": "Loudspeakers, night-time noise, constant honking"
+    },
+    {
+      "name": "Parks & Recreation",
+      "department": "Parks & Horticulture Department",
+      "description": "Parks, playgrounds, gardens and trees"
+    },
+    {
+      "name": "Encroachment & Illegal Construction",
+      "department": "Town Planning & Enforcement Department",
+      "description": "Blocked footpaths, unauthorised buildings and hoardings"
+    },
+    {
+      "name": "Public Buildings & Amenities",
+      "department": "Public Works Department",
+      "description": "Community halls, libraries, public buildings and benches"
+    },
+    {
+      "name": "Government Services",
+      "department": "General Administration",
+      "description": "Delayed certificates and licences, bribes, unresponsive offices"
+    },
+    {
+      "name": "Other",
+      "department": "General Administration",
+      "description": "Anything that does not fit the categories above"
+    }
+  ],
+  "departments": [
+    "Electricity Department",
+    "General Administration",
+    "Parks & Horticulture Department",
+    "Pollution Control Department",
+    "Public Health Department",
+    "Public Safety Department",
+    "Public Works Department",
+    "Sanitation Department",
+    "Sewerage & Drainage Department",
+    "Town Planning & Enforcement Department",
+    "Traffic & Transport Department",
+    "Veterinary & Animal Control Department",
+    "Water Supply Department"
+  ],
+  "fallback_category": "Other"
+}

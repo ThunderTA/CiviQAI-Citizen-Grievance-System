@@ -1,0 +1,16 @@
+# --- API ---------------------------------------------------------------------
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+pydantic>=2.6.0
+python-dotenv>=1.0.1
+
+# --- Vector search / embeddings (from AI_Powered_Grievance_Redressal_System) --
+# faiss-cpu has no wheel on some Python versions; the service falls back to a
+# NumPy brute-force search if it is missing, so installation is allowed to fail.
+sentence-transformers>=2.6.0
+faiss-cpu>=1.8.0
+numpy>=1.24.0
+
+# --- LLM clients (from customer-complaint-agent_new) -------------------------
+groq>=0.4.0
+google-generativeai>=0.3.2
