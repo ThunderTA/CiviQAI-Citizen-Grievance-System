@@ -30,3 +30,12 @@ dist/
 # MongoDB binary, ~150MB — must never be committed).
 _upstream/
 .demo/
+
+# sih-ai-service/vendor/faiss_reference/ is a verbatim copy of
+# anshikaparikh/AI_Powered_Grievance_Redressal_System's qna_faiss.py and
+# related files. That repo carries no license (no LICENSE file, none
+# mentioned anywhere), so default copyright applies and redistributing it
+# is not something we have permission to do. Our own implementation in
+# app/sih/duplicate_detector.py only took the general approach, not the
+# code, and is unaffected by this exclusion. Kept locally for reference.
+sih-ai-service/vendor/faiss_reference/

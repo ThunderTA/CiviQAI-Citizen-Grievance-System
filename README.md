@@ -33,8 +33,23 @@ and Duplicate Complaint Detection**, merged from three source repositories.
 | Path | Origin | Role |
 |---|---|---|
 | `sih-web-portal/` | [PRATYAKSH15/CitizenCare](https://github.com/PRATYAKSH15/CitizenCare) | React client + Express/MongoDB API. System of record. |
-| `sih-ai-service/` | [RiteshKumar2e/customer-complaint-agent_new](https://github.com/RiteshKumar2e/customer-complaint-agent_new) + [anshikaparikh/AI_Powered_Grievance_Redressal_System](https://github.com/anshikaparikh/AI_Powered_Grievance_Redressal_System) | FastAPI triage + duplicate detection. Stateless apart from its vector index. |
-| `_upstream/` | — | The original clones, kept with their git history for provenance. |
+| `sih-ai-service/` | [RiteshKumar2e/customer-complaint-agent_new](https://github.com/RiteshKumar2e/customer-complaint-agent_new) (code reused, MIT) + [anshikaparikh/AI_Powered_Grievance_Redressal_System](https://github.com/anshikaparikh/AI_Powered_Grievance_Redressal_System) (approach only, no code — see **Licensing** below) | FastAPI triage + duplicate detection. Stateless apart from its vector index. |
+
+`_upstream/` (the three original clones) and `sih-ai-service/vendor/faiss_reference/`
+are **not part of this repository** — both are gitignored and exist only as a
+local convenience if you clone the source projects yourself. See **Licensing**.
+
+## Licensing
+
+This project is MIT-licensed (`LICENSE`). It incorporates code from two other
+MIT-licensed projects (PRATYAKSH15/CitizenCare and
+RiteshKumar2e/customer-complaint-agent_new) — their required copyright and
+permission notices are reproduced in full in `THIRD_PARTY_NOTICES.md`.
+
+A third project, anshikaparikh/AI_Powered_Grievance_Redressal_System, carries
+no license at all. No code from it is included in this repository — only its
+general approach informed `app/sih/duplicate_detector.py`'s design, which is
+an original implementation. See `THIRD_PARTY_NOTICES.md` for the detail.
 
 ## Quick start
 
@@ -311,8 +326,13 @@ duplicate detector:
 | Text only | Geo-aware | Two identical pothole reports 40km apart are two potholes. |
 
 The upstream file is a Q&A chatbot over a corpus, not a duplicate detector, and
-depends on data and model directories that are not committed. It is preserved
-verbatim at `sih-ai-service/vendor/faiss_reference/` for reference.
+depends on data and model directories that are not committed. Only the
+*approach* was carried over — `duplicate_detector.py` is an original
+implementation, not a modified copy. The upstream repo itself carries no
+license, so its code is **not included in this repository**; it stays in a
+local, gitignored copy (`sih-ai-service/vendor/faiss_reference/`, populated by
+cloning `anshikaparikh/AI_Powered_Grievance_Redressal_System` yourself) for
+anyone who wants to compare the two side by side.
 
 ### Node bridge
 
