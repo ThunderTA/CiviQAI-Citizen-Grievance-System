@@ -1,7 +1,31 @@
-# SIH26-S02 — AI Citizen Grievance System
+# CiviQAI — AI Citizen Grievance System
 
-Unified prototype for **AI-Based Citizen Grievance Classification, Prioritization
-and Duplicate Complaint Detection**, merged from three source repositories.
+Citizens report a civic problem in plain language. An AI service routes it to the
+right department (21 categories, with an honest "Other" fallback), scores its
+priority 1–5, and checks whether the same problem has already been reported
+nearby. When several different people report the same issue, it is folded into one
+ticket and its priority rises automatically. Government officials can advance
+status and add notes, but cannot edit or delete a citizen's report.
+
+Built for **SIH26-S02: AI-Based Citizen Grievance Classification, Prioritization
+and Duplicate Complaint Detection**. React + Express/MongoDB + FastAPI (rules,
+MiniLM + FAISS). See [DEPLOY.md](DEPLOY.md) for a free public demo setup.
+
+## Screenshots
+
+*All screenshots use fictional data.*
+
+| | |
+|---|---|
+| ![AI triage result](docs/screenshots/01-ai-triage-result.png) **AI triage** — department, priority and the reason, shown on submission | ![Community feed](docs/screenshots/02-community-feed.png) **Community feed** — repeat reports are folded in and priority is raised |
+| ![Official console](docs/screenshots/03-official-console.png) **Official console** — read-only record; status and notes only | ![Owner console](docs/screenshots/04-owner-console.png) **Owner console** — AI health, load by department, duplicate clusters, official accounts |
+
+![Citizen tracking view](docs/screenshots/05-citizen-tracking.png)
+**Citizen tracking** — who is handling it, how many people reported it, SLA countdown, official note.
+
+## How it fits together
+
+Unified prototype merged from three source repositories.
 
 ```
                     ┌──────────────────────────┐
