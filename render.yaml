@@ -1,0 +1,47 @@
+# Render Blueprint: the Node API and the lightweight AI service.
+# The database is MongoDB Atlas and the React app is on Vercel - see DEPLOY.md.
+#
+# Not tested against a live Render account - the first deploy is the test, so
+# read the service logs if something is off.
+services:
+  - type: web
+    name: civiqai-ai
+    runtime: python
+    rootDir: sih-ai-service
+    plan: free
+    buildCommand: pip install -r requirements-light.txt
+    startCommand: uvicorn app.sih_main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      # The index lives on local disk, which the free tier wipes on every
+      # restart. See DEPLOY.md ("Duplicate detection after a restart").
+      - key: VECTOR_STORE_DIR
+        value: /tmp/vector_store
+
+  - type: web
+    name: civiqai-api
+    runtime: node
+    rootDir: sih-web-portal/server
+    plan: free
+    buildCommand: npm ci
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DEMO_MODE
+        value: "true"
+      - key: JWT_SECRET
+        generateValue: true
+      # Fill these in on the Render dashboard (marked sync:false so they are
+      # never stored in this file or in git):
+      - key: MONGODB_URI          # your Atlas connection string
+        sync: false
+      - key: ADMIN_EMAILS         # your real owner email
+        sync: false
+      - key: CLIENT_URL           # your Vercel URL, exactly, no trailing slash
+        sync: false
+      - key: AI_SERVICE_URL       # https://civiqai-ai.onrender.com
+        sync: false

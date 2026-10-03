@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Building2, Loader2, AlertCircle } from 'lucide-react'
+import { DEMO_MODE } from '@/lib/demo'
+import DemoAccounts from '@/components/DemoAccounts'
 
 export default function SignInPage() {
   const { signIn } = useAuth()
@@ -41,6 +43,8 @@ export default function SignInPage() {
           </p>
         </div>
 
+        {DEMO_MODE && <DemoAccounts kind="citizen" onPick={setForm} />}
+
         <form onSubmit={submit} className="space-y-4">
           {error && (
             <div
@@ -64,9 +68,10 @@ export default function SignInPage() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="password">Password</Label>
-              <Link to="/forgot-password" className="text-xs text-muted-foreground hover:text-foreground">
+              {!DEMO_MODE && (              <Link to="/forgot-password" className="text-xs text-muted-foreground hover:text-foreground">
                 Forgot password?
               </Link>
+              )}
             </div>
             <Input
               id="password" type="password" autoComplete="current-password" required
@@ -81,12 +86,14 @@ export default function SignInPage() {
           </Button>
         </form>
 
-        <p className="text-center text-sm text-muted-foreground mt-6">
+        {!DEMO_MODE && (        <p className="text-center text-sm text-muted-foreground mt-6">
           New here?{' '}
           <Link to="/sign-up" className="text-primary font-medium hover:underline">
             Create an account
           </Link>
         </p>
+
+        )}
       </div>
     </div>
   )

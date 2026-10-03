@@ -22,6 +22,7 @@ import UserManagement from './pages/UserManagement'
 import { SocketNotifications } from './components/SocketNotifications'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { Loader2 } from 'lucide-react'
+import { DEMO_MODE } from '@/lib/demo'
 
 function FullPageSpinner() {
   return (
@@ -85,15 +86,20 @@ function App() {
           <Route path="/official/sign-in" element={
             <GuestOnlyRoute redirectTo="/official"><OfficialSignIn /></GuestOnlyRoute>} />
 
-          {/* Password recovery. Available to citizens and officials alike. */}
+          {/* Account creation and password recovery. The public demo has neither:
+              visitors use the shared guest logins, and the API refuses these
+              calls anyway, so the pages just hand people to the sign-in form. */}
           <Route path="/forgot-password" element={
-            <GuestOnlyRoute><ForgotPassword /></GuestOnlyRoute>} />
+            DEMO_MODE ? <Navigate to="/sign-in" replace />
+              : <GuestOnlyRoute><ForgotPassword /></GuestOnlyRoute>} />
           {/* Not guest-only: completing a reset signs the user in, and the page
               itself must survive that transition to show the result. */}
-          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/reset-password" element={
+            DEMO_MODE ? <Navigate to="/sign-in" replace /> : <ResetPassword />} />
           {/* A new account's first task is filing something, so land there. */}
           <Route path="/sign-up" element={
-            <GuestOnlyRoute redirectTo="/submit"><SignUpPage /></GuestOnlyRoute>} />
+            DEMO_MODE ? <Navigate to="/sign-in" replace />
+              : <GuestOnlyRoute redirectTo="/submit"><SignUpPage /></GuestOnlyRoute>} />
 
           {/* Public — anyone can browse what has been reported */}
           <Route path="/map" element={<IssueMap />} />

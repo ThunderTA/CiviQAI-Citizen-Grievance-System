@@ -1,3 +1,4 @@
+import { DEMO_MODE } from '@/lib/demo'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '@/lib/auth'
@@ -150,12 +151,14 @@ export default function Sidebar({ open, onClose }) {
               >
                 Sign in
               </Link>
-              <Link
-                to="/sign-up"
-                className="flex-1 text-center text-sm rounded-md bg-primary text-primary-foreground px-3 py-1.5 hover:opacity-90 transition-opacity"
-              >
-                Sign up
-              </Link>
+              {!DEMO_MODE && (
+                <Link
+                  to="/sign-up"
+                  className="flex-1 text-center text-sm rounded-md bg-primary text-primary-foreground px-3 py-1.5 hover:opacity-90 transition-opacity"
+                >
+                  Sign up
+                </Link>
+              )}
             </div>
             <Link
               to="/official/sign-in"

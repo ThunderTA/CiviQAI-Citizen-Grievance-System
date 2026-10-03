@@ -18,6 +18,7 @@ import {
 } from '../services/passwordReset.js';
 import { sendPasswordResetEmail } from '../controllers/emailController.js';
 import { rateLimit } from '../middleware/rateLimit.js';
+import { blockInDemo } from '../middleware/demoMode.js';
 
 const router = express.Router();
 
@@ -125,7 +126,7 @@ router.post('/aadhaar/verify-otp', (req, res) => {
 });
 
 // POST /api/auth/register — create a citizen account
-router.post('/register', rateLimit({ windowMs: 60 * 60 * 1000, max: 10 }), async (req, res) => {
+router.post('/register', blockInDemo, rateLimit({ windowMs: 60 * 60 * 1000, max: 10 }), async (req, res) => {
   try {
     const { email, password, name, phone, aadhaarToken } = req.body;
 
@@ -213,7 +214,7 @@ router.post('/login', loginLimiter, async (req, res) => {
 // Always answers the same way, whether or not the address is registered.
 // Saying "no such account" would turn this endpoint into a membership oracle:
 // anyone could test an address list against the citizen database.
-router.post('/forgot-password', forgotLimiter, async (req, res) => {
+router.post('/forgot-password', blockInDemo, forgotLimiter, async (req, res) => {
   const generic = {
     message: 'If an account exists for that email, a reset link is on its way.',
   };
@@ -276,7 +277,7 @@ router.get('/reset-password/check', ...resetLimiter, async (req, res) => {
 });
 
 // POST /api/auth/reset-password
-router.post('/reset-password', ...resetLimiter, async (req, res) => {
+router.post('/reset-password', blockInDemo, ...resetLimiter, async (req, res) => {
   try {
     const { token, password } = req.body || {};
     if (!token) return res.status(400).json({ error: 'Reset token is required' });
@@ -327,7 +328,7 @@ router.get('/me', requireAuth, async (req, res) => {
 });
 
 // PATCH /api/auth/me — update own name/phone
-router.patch('/me', requireAuth, async (req, res) => {
+router.patch('/me', requireAuth, blockInDemo, async (req, res) => {
   try {
     const update = {};
     if (req.body.name !== undefined) update.name = String(req.body.name).trim();
@@ -344,7 +345,7 @@ router.patch('/me', requireAuth, async (req, res) => {
 });
 
 // POST /api/auth/change-password
-router.post('/change-password', requireAuth, async (req, res) => {
+router.post('/change-password', requireAuth, blockInDemo, async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
     if (!newPassword || String(newPassword).length < MIN_PASSWORD) {

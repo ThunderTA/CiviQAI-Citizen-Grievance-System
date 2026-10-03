@@ -1,0 +1,16 @@
+# Lightweight install for free hosting tiers (~70 MB instead of ~1.2 GB).
+#
+# Leaves out PyTorch / sentence-transformers / FAISS. The service detects their
+# absence and keeps working:
+#   - category, department and priority scoring: IDENTICAL (they are rule-based)
+#   - duplicate detection: falls back to a hashing encoder, which catches
+#     near-identical restatements but NOT reworded ones ("crater" vs "pothole")
+#   - LLM layer: off unless GROQ_API_KEY / GEMINI_API_KEY are set and the
+#     matching client is installed
+#
+# For the full semantic duplicate detection use requirements.txt instead.
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+pydantic>=2.6.0
+python-dotenv>=1.0.1
+numpy>=1.24.0

@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Landmark, Loader2, AlertCircle, ShieldAlert } from 'lucide-react'
+import { DEMO_MODE } from '@/lib/demo'
+import DemoAccounts from '@/components/DemoAccounts'
 
 /**
  * Separate entrance for government officials.
@@ -52,6 +54,8 @@ export default function OfficialSignIn() {
           </p>
         </div>
 
+        {DEMO_MODE && <DemoAccounts kind="official" onPick={setForm} />}
+
         <form onSubmit={submit} className="space-y-4">
           {error && (
             <div role="alert" className="flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2.5 text-sm text-destructive">
@@ -70,9 +74,10 @@ export default function OfficialSignIn() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="password">Password</Label>
-              <Link to="/forgot-password" className="text-xs text-muted-foreground hover:text-foreground">
+              {!DEMO_MODE && (              <Link to="/forgot-password" className="text-xs text-muted-foreground hover:text-foreground">
                 Forgot password?
               </Link>
+              )}
             </div>
             <Input id="password" type="password" required autoComplete="current-password"
                    placeholder="••••••••"

@@ -3,6 +3,7 @@ import { SignedIn, SignedOut } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { useCategoryNames } from '@/lib/taxonomy'
+import { DEMO_MODE } from '@/lib/demo'
 import {
   PlusCircle, BarChart3, Brain, ShieldCheck, ArrowRight, MapPin,
   CheckCircle2, Bell, Globe, Users, Map, Zap, TrendingUp, Star,
@@ -142,8 +143,8 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-16">
             <SignedOut>
               <Button size="lg" asChild className="gap-2 text-base px-8 h-12 shadow-lg shadow-primary/25">
-                <Link to="/sign-up">
-                  Get Started Free <ArrowRight className="h-4 w-4" />
+                <Link to={DEMO_MODE ? '/sign-in' : '/sign-up'}>
+                  {DEMO_MODE ? 'Try the demo' : 'Get Started Free'} <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild className="h-12 text-base px-8">
@@ -318,8 +319,8 @@ export default function LandingPage() {
                 asChild
                 className="gap-2 h-12 text-base px-8 bg-white text-primary hover:bg-white/90 shadow-xl border-0"
               >
-                <Link to="/sign-up">
-                  Start Reporting <ArrowRight className="h-4 w-4" />
+                <Link to={DEMO_MODE ? '/sign-in' : '/sign-up'}>
+                  {DEMO_MODE ? 'Try the demo' : 'Start Reporting'} <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button

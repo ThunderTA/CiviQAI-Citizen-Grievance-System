@@ -34,6 +34,8 @@ import {
   releaseDuplicates,
   resolveRoot,
 } from '../services/escalation.js';
+import { rateLimit } from '../middleware/rateLimit.js';
+import { DEMO_MODE } from '../middleware/demoMode.js';
 import { io } from '../server.js';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -45,7 +47,14 @@ const scopedIssueFilter = (req) => req.auth.role === 'admin'
   : { department: req.officialScope.department, state: req.officialScope.region };
 
 // POST /api/issues — submit a new issue (citizen)
-router.post('/', requireAuth, async (req, res) => {
+// Only in the public demo: the database is open to anyone holding a guest login,
+// so cap how many grievances one account can file per hour. Off otherwise, so
+// normal use and the test suites are unaffected.
+const submissionLimiter = DEMO_MODE
+  ? rateLimit({ windowMs: 60 * 60 * 1000, max: 10, keyOn: (req) => `submit:${req.auth?.userId || req.ip}` })
+  : (req, res, next) => next();
+
+router.post('/', requireAuth, submissionLimiter, async (req, res) => {
   try {
     const {
       title,

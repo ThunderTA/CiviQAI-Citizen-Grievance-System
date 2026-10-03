@@ -21,7 +21,9 @@ dotenv.config();
 
 // Sign-in-able demo accounts. Complaints are attributed to these, so "My
 // Complaints" has content the moment you log in.
-const DEMO_PASSWORD = 'demo12345';
+// Override with DEMO_PASSWORD when seeding a public instance, so the guest
+// password is not the one published in the repository.
+const DEMO_PASSWORD = process.env.DEMO_PASSWORD || 'demo12345';
 const DEMO_USERS = [
   { email: 'citizen@demo.in', name: 'Ravi Deshmukh', phone: '9812345670', role: 'citizen' },
   { email: 'meena@demo.in',   name: 'Meena Krishnan', phone: '9800112233', role: 'citizen' },
@@ -116,7 +118,10 @@ const run = async () => {
   // Upsert the demo accounts. Idempotent, so re-seeding does not fail on the
   // unique email index or reset a password you may have changed.
   const users = [];
-  for (const demo of DEMO_USERS) {
+  // --no-admin: skip the demo admin account. Use it on any real instance, where
+  // the owner is created with scripts/createOwner.mjs instead.
+  const skipAdmin = process.argv.includes('--no-admin');
+  for (const demo of DEMO_USERS.filter(u => !(skipAdmin && u.email === 'admin@demo.in'))) {
     let user = await User.findOne({ email: demo.email });
     if (!user) {
       user = await User.create({

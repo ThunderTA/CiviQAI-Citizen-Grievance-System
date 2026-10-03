@@ -81,6 +81,11 @@ real deployment. Change the owner account by editing `ADMIN_EMAILS` in
 Registering at `/sign-up` walks the Aadhaar verification step. The in-memory
 database is wiped when you stop the script.
 
+### Public demo (free hosting)
+
+To put a showcase online with shared guest logins, see **[DEPLOY.md](DEPLOY.md)**
+(Atlas + Render + Vercel, with a lightweight AI service that needs no PyTorch).
+
 ### Docker (everything at once)
 
 ```bash

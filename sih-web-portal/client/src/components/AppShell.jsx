@@ -1,3 +1,4 @@
+import { DEMO_MODE } from '@/lib/demo'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Sidebar from '@/components/Sidebar'
@@ -42,12 +43,14 @@ export default function AppShell({ children }) {
             >
               Sign in
             </Link>
-            <Link
-              to="/sign-up"
-              className="text-sm rounded-md bg-primary text-primary-foreground px-3 py-1.5 hover:opacity-90 transition-opacity"
-            >
-              Sign up
-            </Link>
+            {!DEMO_MODE && (
+              <Link
+                to="/sign-up"
+                className="text-sm rounded-md bg-primary text-primary-foreground px-3 py-1.5 hover:opacity-90 transition-opacity"
+              >
+                Sign up
+              </Link>
+            )}
           </SignedOut>
         </header>
 

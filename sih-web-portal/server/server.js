@@ -55,6 +55,10 @@ httpServer.listen(PORT, () => {
 
   // Several conveniences are gated on NODE_ENV. Deploying without setting it
   // silently leaves them on, so say plainly which ones are active.
+  if (process.env.DEMO_MODE === 'true') {
+    console.log('[demo] DEMO_MODE is on: registration, password changes and password reset are disabled.');
+  }
+
   if (process.env.NODE_ENV !== 'production') {
     console.warn(
       '\n[dev] NODE_ENV is not "production". Development conveniences are ACTIVE:\n' +
