@@ -10,10 +10,10 @@ import {
 } from 'lucide-react'
 
 const stats = [
-  { value: '10K+', label: 'Issues Reported' },
-  { value: '85%', label: 'Resolution Rate' },
-  { value: '48h', label: 'Avg Response' },
-  { value: '200+', label: 'Cities Covered' },
+  { value: '21', label: 'Issue Categories' },
+  { value: '13', label: 'Departments' },
+  { value: '1-5', label: 'Priority Scale' },
+  { value: '500 m', label: 'Duplicate Radius' },
 ]
 
 const steps = [
@@ -310,7 +310,7 @@ export default function LandingPage() {
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">Ready to make a difference?</h2>
           <p className="mb-8 text-white/75 text-lg">
-            Join thousands of citizens already using CiviQAI to improve their communities — one issue at a time.
+            Report an issue, watch it get routed and tracked, and help improve your community — one issue at a time.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <SignedOut>
