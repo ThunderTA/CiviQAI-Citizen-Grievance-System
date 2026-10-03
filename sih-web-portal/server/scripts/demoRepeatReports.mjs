@@ -20,6 +20,12 @@ import User from '../models/User.js';
 import Issue from '../models/Issue.js';
 dotenv.config();
 
+// Owner credentials. Default to the seeded demo account so a fresh clone works
+// out of the box; override with ADMIN_EMAIL / ADMIN_PASSWORD when the owner
+// account has been changed (never commit a real password here).
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@demo.in';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'demo12345';
+
 const BASE = process.env.API_URL || `http://localhost:${process.env.PORT || 3000}/api`;
 const PASSWORD = 'esctest12345';
 const PREFIX = 'esc-demo-';
@@ -50,7 +56,7 @@ const BENCH = [
 await mongoose.connect(process.env.MONGODB_URI);
 
 const down = async () => {
-  const admin = await login('admin@demo.in', 'demo12345');
+  const admin = await login(ADMIN_EMAIL, ADMIN_PASSWORD);
   const issues = await Issue.find({ submitterEmail: { $regex: `^${PREFIX}` } }).select('_id').lean();
   for (const { _id } of issues) await call(`/issues/${_id}`, { method: 'DELETE', token: admin });
   await Issue.deleteMany({ submitterEmail: { $regex: `^${PREFIX}` } });
@@ -105,7 +111,7 @@ if (mode === 'down') {
   console.log(`\nDone. Sign in (password ${PASSWORD}):`);
   console.log(`  citizen  ${PREFIX}2@demo.in   -> My Issues shows the merged, tracked report`);
   console.log(`  official ${PREFIX}official@gov.in  -> Official Console (${original.department}, Meghalaya)`);
-  console.log('  owner    admin@demo.in / demo12345 -> Admin Dashboard');
+  console.log(`  owner    ${ADMIN_EMAIL} -> Admin Dashboard`);
   console.log('\nRemove it all with:  node scripts/demoRepeatReports.mjs down');
 } else {
   console.log('usage: node scripts/demoRepeatReports.mjs up|down');

@@ -73,6 +73,11 @@ Seeded accounts, all with password `demo12345`:
 | `pwd.officer@gov.in` | `/official/sign-in` | Same scope |
 | `admin@demo.in` | `/sign-in` | Owner console, dashboards, user management |
 
+These are **demo-only credentials** created by the seed script so anyone who
+clones the repo can try every role. They are public — never reuse them on a
+real deployment. Change the owner account by editing `ADMIN_EMAILS` in
+`sih-web-portal/server/.env` and setting a new password for that user.
+
 Registering at `/sign-up` walks the Aadhaar verification step. The in-memory
 database is wiped when you stop the script.
 
@@ -140,6 +145,8 @@ cd sih-ai-service
 
 cd ../sih-web-portal/server                  # these need the stack running
 node tests/permissions.test.mjs              # 25 checks — role boundaries
+# The suites that sign in as the owner default to the demo admin above. If you
+# changed it, pass yours: ADMIN_EMAIL=you@example.com ADMIN_PASSWORD=... node tests/...
 node tests/aadhaar.test.mjs                  # 25 checks — Aadhaar privacy
 node tests/passwordReset.test.mjs            # 22 checks — reset & session revocation
 node tests/escalation.unit.test.mjs          # 38 checks — escalation rules, no stack needed

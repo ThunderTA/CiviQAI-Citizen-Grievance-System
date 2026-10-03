@@ -18,6 +18,12 @@ import Issue from '../models/Issue.js';
 import { resolveRoot, recomputeAllClusters, URGENCY_LEVELS } from '../services/escalation.js';
 dotenv.config();
 
+// Owner credentials. Default to the seeded demo account so a fresh clone works
+// out of the box; override with ADMIN_EMAIL / ADMIN_PASSWORD when the owner
+// account has been changed (never commit a real password here).
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@demo.in';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'demo12345';
+
 const BASE = process.env.API_URL || 'http://localhost:3000/api';
 const RUN = Date.now();
 const PASSWORD = 'esctest12345';
@@ -94,9 +100,9 @@ const run = async () => {
   for (let n = 1; n <= 6; n += 1) {
     tokens.push((await call('/auth/login', { method: 'POST', body: { email: EMAIL(n), password: PASSWORD } })).body?.token);
   }
-  const admin = (await call('/auth/login', { method: 'POST', body: { email: 'admin@demo.in', password: 'demo12345' } })).body?.token;
+  const admin = (await call('/auth/login', { method: 'POST', body: { email: ADMIN_EMAIL, password: ADMIN_PASSWORD } })).body?.token;
   if (!admin || tokens.some(t => !t)) {
-    console.error('Could not sign in the test accounts (is admin@demo.in seeded?).');
+    console.error('Could not sign in the test accounts (set ADMIN_EMAIL / ADMIN_PASSWORD if the owner account was changed).');
     process.exit(1);
   }
   const [t1, t2, t3, t4, t5, t6] = tokens;

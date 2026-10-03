@@ -8,6 +8,12 @@
  * not a UI preference, so it is asserted against the HTTP API — hiding a
  * button proves nothing.
  */
+// Owner credentials. Default to the seeded demo account so a fresh clone works
+// out of the box; override with ADMIN_EMAIL / ADMIN_PASSWORD when the owner
+// account has been changed (never commit a real password here).
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@demo.in';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'demo12345';
+
 const BASE = process.env.API_URL || 'http://localhost:3000/api';
 
 let passed = 0;
@@ -47,9 +53,9 @@ const run = async () => {
   console.log('Permission boundaries');
   console.log('='.repeat(62));
 
-  const adminToken = await login('admin@demo.in', 'demo12345');
+  const adminToken = await login(ADMIN_EMAIL, ADMIN_PASSWORD);
   if (!adminToken) {
-    console.error('Could not sign in as admin@demo.in. Run `node seedDemo.js --reset` first.');
+    console.error(`Could not sign in as the owner (${ADMIN_EMAIL}). Seed with \`node seedDemo.js --reset\`, or set ADMIN_EMAIL / ADMIN_PASSWORD.`);
     process.exit(1);
   }
 
