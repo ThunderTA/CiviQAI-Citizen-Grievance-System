@@ -11,6 +11,12 @@ Built for **SIH26-S02: AI-Based Citizen Grievance Classification, Prioritization
 and Duplicate Complaint Detection**. React + Express/MongoDB + FastAPI (rules,
 MiniLM + FAISS). See [DEPLOY.md](DEPLOY.md) for a free public demo setup.
 
+## Live demo
+
+**https://civi-qai-citizen-grievance-system.vercel.app**
+
+Click a guest login on the sign-in page (a citizen and a government official; the password is filled in for you). Hosted on free tiers, so the first request after a quiet spell can take up to a minute while the services wake up. The demo is deliberately locked down: no sign-up, no password changes, and the owner console is not exposed.
+
 ## Screenshots
 
 *All screenshots use fictional data.*

@@ -107,6 +107,7 @@ Do not run the seed without `--no-admin` against a live database.
 
 - **Cold starts.** Free Render services sleep after about 15 minutes idle, so the
   first visit can take 30 to 60 seconds. Worth a line in your portfolio blurb.
+- **Slow first submission.** The API waits up to 65 s for the sleeping AI service (`AI_SERVICE_TIMEOUT_MS`); with the default 12 s it would give up and file the grievance as "Other".
 - **Duplicate detection after a restart.** The search index lives on local disk,
   which the free tier wipes on every restart, so older grievances stop being
   matched. Sign in as the owner and press **Rebuild from database** in the Owner

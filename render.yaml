@@ -33,6 +33,10 @@ services:
         value: production
       - key: DEMO_MODE
         value: "true"
+      # The free AI service sleeps when idle and takes ~50 s to wake. Without
+      # this the API gives up after 12 s and files the grievance as "Other".
+      - key: AI_SERVICE_TIMEOUT_MS
+        value: "65000"
       - key: JWT_SECRET
         generateValue: true
       # Fill these in on the Render dashboard (marked sync:false so they are
